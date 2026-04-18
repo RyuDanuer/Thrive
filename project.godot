@@ -27,7 +27,7 @@ config/windows_native_icon="res://assets/misc/icon.ico"
 
 [audio]
 
-driver/output_latency=20
+driver/output_latency=30
 
 [autoload]
 

@@ -1,15 +1,18 @@
 [gd_scene format=3 uid="uid://de2sohb3fjvc1"]
 
-[ext_resource type="Texture2D" uid="uid://bhp3uahplsxpb" path="res://assets/textures/gui/bevel/MainMenu.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://cxqnywb8xdvnb" path="res://assets/textures/gui/bevel/helpButton.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://cp3nxr3dfb88o" path="res://assets/textures/gui/bevel/statisticsButton.png" id="3"]
-[ext_resource type="Texture2D" uid="uid://dglc11477jgka" path="res://assets/textures/gui/bevel/helpButtonActive.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://qqpvmk0a71tk" path="res://assets/textures/gui/bevel/MainMenuActive.png" id="5"]
-[ext_resource type="Texture2D" uid="uid://oq2xa0j5c6af" path="res://assets/textures/gui/bevel/MainMenuHover.png" id="6"]
-[ext_resource type="Texture2D" uid="uid://0wqh6lnuc71d" path="res://assets/textures/gui/bevel/statisticsButtonHover.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://dbudy6jb7bhad" path="res://assets/textures/gui/bevel/helpButtonHover.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://dt32f5t6b4u1u" path="res://assets/textures/gui/bevel/statisticsButtonActive.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/button.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/button.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/button.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonActive.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonActive.svg" id="5"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonHover.svg" id="6"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonHover.svg" id="7"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonHover.svg" id="8"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonActive.svg" id="9"]
 [ext_resource type="Script" uid="uid://bc2jpnna335le" path="res://src/microbe_stage/editor/EditorCommonBottomLeftButtons.cs" id="10"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/MainMenuIcon.svg" id="11_q4gm0"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/StatisticsIcon.svg" id="12_66o5b"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/HelpIcon.svg" id="13_bx6fs"]
 
 [node name="EditorCommonBottomLeftButtons" type="MarginContainer" unique_id=94341805 node_paths=PackedStringArray("menuButton", "helpButton")]
 anchors_preset = 2
@@ -39,6 +42,19 @@ texture_hover = ExtResource("6")
 ignore_texture_size = true
 stretch_mode = 5
 
+[node name="Icon" type="TextureRect" parent="HBoxContainer/MenuButton"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 7.0
+offset_right = -10.0
+offset_bottom = -7.0
+mouse_filter = 2
+texture = ExtResource("11_q4gm0")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="StatisticsButton" type="TextureButton" parent="HBoxContainer" unique_id=1715289602]
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -51,6 +67,19 @@ texture_hover = ExtResource("7")
 ignore_texture_size = true
 stretch_mode = 5
 
+[node name="Icon" type="TextureRect" parent="HBoxContainer/StatisticsButton"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("12_66o5b")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="HelpButton" type="TextureButton" parent="HBoxContainer" unique_id=139910984]
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -60,6 +89,19 @@ texture_normal = ExtResource("2")
 texture_pressed = ExtResource("4")
 texture_hover = ExtResource("8")
 ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/HelpButton"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("13_bx6fs")
+expand_mode = 1
 stretch_mode = 5
 
 [connection signal="pressed" from="HBoxContainer/MenuButton" to="." method="OnMenuButtonPressed"]

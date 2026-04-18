@@ -11,15 +11,16 @@
 [ext_resource type="PackedScene" uid="uid://bhpjtbtaeunat" path="res://src/gui_common/CustomRichTextLabel.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://c027xyogk08vx" path="res://src/microbe_stage/editor/CellStatsIndicator.tscn" id="12"]
 [ext_resource type="Texture2D" uid="uid://cnplt8x3gpyvx" path="res://assets/textures/gui/bevel/SliderTick.svg" id="12_7fujv"]
-[ext_resource type="Texture2D" uid="uid://dbudy6jb7bhad" path="res://assets/textures/gui/bevel/helpButtonHover.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonHover.svg" id="13"]
 [ext_resource type="PackedScene" uid="uid://bapb4m7jw7pc8" path="res://src/microbe_stage/editor/BehaviourEditorSubComponent.tscn" id="14"]
 [ext_resource type="LabelSettings" uid="uid://w2g8aleycqpl" path="res://src/gui_common/fonts/Title-Regular-Bigger.tres" id="14_fllwv"]
 [ext_resource type="PackedScene" uid="uid://bdtlirrkst0vl" path="res://src/microbe_stage/editor/GrowthOrderPicker.tscn" id="15_krpbw"]
 [ext_resource type="PackedScene" uid="uid://5kamud4sukbd" path="res://src/microbe_stage/editor/TolerancesEditorSubComponent.tscn" id="15_rbhjt"]
 [ext_resource type="PackedScene" uid="uid://olpir0vkwcsi" path="res://src/microbe_stage/OrganismStatisticsPanel.tscn" id="15_tdiis"]
 [ext_resource type="PackedScene" uid="uid://bgeijgq7runaw" path="res://src/gui_common/FocusGrabber.tscn" id="16"]
-[ext_resource type="Texture2D" uid="uid://dglc11477jgka" path="res://assets/textures/gui/bevel/helpButtonActive.png" id="17"]
-[ext_resource type="Texture2D" uid="uid://cxqnywb8xdvnb" path="res://assets/textures/gui/bevel/helpButton.png" id="18"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonActive.svg" id="17"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/button.svg" id="18"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/HelpIcon.svg" id="18_5qypw"]
 [ext_resource type="PackedScene" uid="uid://dw3ubsraoopin" path="res://src/gui_common/TabButtons.tscn" id="19"]
 [ext_resource type="Texture2D" uid="uid://ddrj66x85n0tb" path="res://assets/textures/gui/bevel/autoEvoPending.png" id="20"]
 [ext_resource type="Texture2D" uid="uid://ckrug48v4bimt" path="res://assets/textures/gui/bevel/warningBadge.png" id="21"]
@@ -1043,6 +1044,19 @@ texture_normal = ExtResource("18")
 texture_pressed = ExtResource("17")
 texture_hover = ExtResource("13")
 ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="RightPanel/VBoxContainer/AutoEvoInfoPanel/VBoxContainer/Header/HBoxContainer/Details"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+mouse_filter = 2
+texture = ExtResource("18_5qypw")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Body" type="ScrollContainer" parent="RightPanel/VBoxContainer/AutoEvoInfoPanel/VBoxContainer" unique_id=1797186215]

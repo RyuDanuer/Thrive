@@ -3,9 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://du8sc8kjirguk" path="res://src/gui_common/dialogs/CustomWindow.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://dt4v2vma5p2s4" path="res://src/microbe_stage/ProcessList.tscn" id="2"]
 [ext_resource type="Script" uid="uid://cggb4tptu8us2" path="res://src/microbe_stage/ProcessPanel.cs" id="3"]
-[ext_resource type="Texture2D" uid="uid://cxqnywb8xdvnb" path="res://assets/textures/gui/bevel/helpButton.png" id="3_70el7"]
-[ext_resource type="Texture2D" uid="uid://dglc11477jgka" path="res://assets/textures/gui/bevel/helpButtonActive.png" id="4_hcph5"]
-[ext_resource type="Texture2D" uid="uid://dbudy6jb7bhad" path="res://assets/textures/gui/bevel/helpButtonHover.png" id="5_o8k0d"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/button.svg" id="3_70el7"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonActive.svg" id="4_hcph5"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/buttonHover.svg" id="5_o8k0d"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/HelpIcon.svg" id="6_3ogt1"]
 [ext_resource type="LabelSettings" uid="uid://dvqx73nhtr0y2" path="res://src/gui_common/fonts/Body-Regular-Small.tres" id="7_o8k0d"]
 
 [node name="ProcessPanel" unique_id=895796782 node_paths=PackedStringArray("processList", "closeButtonContainer", "helpButtonContainer", "multicellularProcessPanelExplanation") instance=ExtResource("1")]
@@ -69,6 +70,19 @@ texture_normal = ExtResource("3_70el7")
 texture_pressed = ExtResource("4_hcph5")
 texture_hover = ExtResource("5_o8k0d")
 ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HelpButtonContainer/TextureButton" index="0"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+mouse_filter = 2
+texture = ExtResource("6_3ogt1")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="BottomButtonContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" index="2" unique_id=1118743253]

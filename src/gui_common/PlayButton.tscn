@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://7fwavluq5q7o"]
 
-[ext_resource type="Texture2D" uid="uid://xrmrjmbscf2" path="res://assets/textures/gui/bevel/PauseIcon.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://cvhok04mdyd75" path="res://assets/textures/gui/bevel/PlayIcon.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/PauseGlyph.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/textures/gui/bevel/PlayGlyph.svg" id="3"]
 [ext_resource type="Script" uid="uid://b1ah2r70hriar" path="res://src/gui_common/PlayButton.cs" id="6"]
 
 [sub_resource type="StyleBoxFlat" id="1"]

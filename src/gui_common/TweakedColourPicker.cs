@@ -10,6 +10,13 @@
 /// </remarks>
 public partial class TweakedColourPicker : ColorPicker
 {
+    private const string ColourPickerToggleOffIconPath = "res://assets/textures/gui/bevel/RadioA.svg";
+    private const string ColourPickerToggleOnIconPath = "res://assets/textures/gui/bevel/RadioB.svg";
+    private const string ColourPickerToggleOffDisabledIconPath =
+        "res://assets/textures/gui/bevel/RadioADisabled.svg";
+    private const string ColourPickerToggleOnDisabledIconPath =
+        "res://assets/textures/gui/bevel/RadioBDisabled.svg";
+
 #pragma warning disable CA2213
     private HSlider sliderROrH = null!;
     private HSlider sliderGOrS = null!;
@@ -32,20 +39,24 @@ public partial class TweakedColourPicker : ColorPicker
         base._Ready();
 
         var baseControl = GetChild(0, true).GetChild(0);
+        var modeButtonContainer = baseControl.GetChild(2);
+        var rgbModeButton = modeButtonContainer.GetChild<BaseButton>(0);
+        var hsvModeButton = modeButtonContainer.GetChild<BaseButton>(1);
+        var rawModeButton = modeButtonContainer.GetChild<BaseButton>(2);
+        var modeDropdownButton = modeButtonContainer.GetChild<MenuButton>(3);
 
         // RGB/HSV/RAW buttons.
-        baseControl.GetChild(2).GetChild<BaseButton>(0).Connect(BaseButton.SignalName.Pressed,
-            new Callable(this, nameof(HideAlphaSlider)));
-        baseControl.GetChild(2).GetChild<BaseButton>(1).Connect(BaseButton.SignalName.Pressed,
-            new Callable(this, nameof(HideAlphaSlider)));
+        rgbModeButton.Connect(BaseButton.SignalName.Pressed, new Callable(this, nameof(HideAlphaSlider)));
+        hsvModeButton.Connect(BaseButton.SignalName.Pressed, new Callable(this, nameof(HideAlphaSlider)));
 
-        baseControl.GetChild(2).GetChild<BaseButton>(0).Connect(BaseButton.SignalName.Pressed,
-            new Callable(this, nameof(UpdateTooltips)));
-        baseControl.GetChild(2).GetChild<BaseButton>(1).Connect(BaseButton.SignalName.Pressed,
-            new Callable(this, nameof(UpdateTooltips)));
+        rgbModeButton.Connect(BaseButton.SignalName.Pressed, new Callable(this, nameof(UpdateTooltips)));
+        hsvModeButton.Connect(BaseButton.SignalName.Pressed, new Callable(this, nameof(UpdateTooltips)));
+
+        ApplyColourModeToggleTheme(hsvModeButton);
+        ApplyColourModeToggleTheme(rawModeButton);
 
         // Hide the RAW button
-        baseControl.GetChild(2).GetChild<BaseButton>(2).Hide();
+        rawModeButton.Hide();
 
         // Get controls
         // Sliders are now also for HSL (OKHSL)
@@ -57,14 +68,14 @@ public partial class TweakedColourPicker : ColorPicker
         spinBoxA = baseControl.GetChild(3).GetChild<Control>(11);
         pickerButton = baseControl.GetChild(1).GetChild<Button>(0);
 
-        baseControl.GetChild(2).GetChild<MenuButton>(3).GetPopup().Connect(PopupMenu.SignalName.IndexPressed,
+        modeDropdownButton.GetPopup().Connect(PopupMenu.SignalName.IndexPressed,
             new Callable(this, nameof(HideAlphaSlider)));
-        baseControl.GetChild(2).GetChild<MenuButton>(3).GetPopup().Connect(PopupMenu.SignalName.IndexPressed,
+        modeDropdownButton.GetPopup().Connect(PopupMenu.SignalName.IndexPressed,
             new Callable(this, nameof(UpdateTooltips)));
         HideAlphaSlider(1);
 
         // Disable the RAW option in a dropdown menu
-        baseControl.GetChild(2).GetChild<MenuButton>(3).GetPopup().SetItemDisabled(2, true);
+        modeDropdownButton.GetPopup().SetItemDisabled(2, true);
 
         // Disable value bar scroll with the mouse, as the colour pickers are often in scrollable containers and
         // this would otherwise be problematic. Perhaps in the future we should have this be configurable with an
@@ -93,6 +104,34 @@ public partial class TweakedColourPicker : ColorPicker
 
         Color = colour;
         EmitSignal(ColorPicker.SignalName.ColorChanged, colour);
+    }
+
+    private static void ApplyColourModeToggleTheme(BaseButton button)
+    {
+        var uncheckedIcon = GD.Load<Texture2D>(ColourPickerToggleOffIconPath);
+        var checkedIcon = GD.Load<Texture2D>(ColourPickerToggleOnIconPath);
+        var uncheckedDisabledIcon = GD.Load<Texture2D>(ColourPickerToggleOffDisabledIconPath);
+        var checkedDisabledIcon = GD.Load<Texture2D>(ColourPickerToggleOnDisabledIconPath);
+
+        switch (button)
+        {
+            case CheckButton checkButton:
+                checkButton.AddThemeIconOverride("unchecked", uncheckedIcon);
+                checkButton.AddThemeIconOverride("checked", checkedIcon);
+                checkButton.AddThemeIconOverride("unchecked_disabled", uncheckedDisabledIcon);
+                checkButton.AddThemeIconOverride("checked_disabled", checkedDisabledIcon);
+                break;
+            case CheckBox checkBox:
+                checkBox.AddThemeIconOverride("unchecked", uncheckedIcon);
+                checkBox.AddThemeIconOverride("checked", checkedIcon);
+                checkBox.AddThemeIconOverride("unchecked_disabled", uncheckedDisabledIcon);
+                checkBox.AddThemeIconOverride("checked_disabled", checkedDisabledIcon);
+                checkBox.AddThemeIconOverride("radio_unchecked", uncheckedIcon);
+                checkBox.AddThemeIconOverride("radio_checked", checkedIcon);
+                checkBox.AddThemeIconOverride("radio_unchecked_disabled", uncheckedDisabledIcon);
+                checkBox.AddThemeIconOverride("radio_checked_disabled", checkedDisabledIcon);
+                break;
+        }
     }
 
     // TODO: this seems to no longer be used from anywhere (so enabling raw mode won't be easy upgrade to make to this

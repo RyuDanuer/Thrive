@@ -1471,7 +1471,7 @@ public partial class CellBodyPlanEditorComponent :
             var specialization =
                 MicrobeInternalCalculations.CalculateSpecializationBonus(hex.Data!.ModifiableOrganelles, tempMemory3);
             var adjacencySpecialization =
-                CellBodyPlanInternalCalculations.GetAdjacencySpecializationBonusFromIndexAndPlan(hex.Data, cells);
+                CellBodyPlanInternalCalculations.GetEditorBodyPlanAdjacencySpecializationBonus(hex, cells);
 
             var totalSpecialization = specialization * adjacencySpecialization;
 
@@ -1481,7 +1481,7 @@ public partial class CellBodyPlanEditorComponent :
                 organismStatisticsPanel.CompoundAmountType, null, energyBalanceInfo);
 
             ProcessSystem.CalculateInputCompoundsNeededForOutputs(hex.Data.ModifiableOrganelles, conditionsData,
-                environmentalTolerances, specialization,
+                environmentalTolerances, totalSpecialization,
                 organismStatisticsPanel.CompoundAmountType, true, tempCompoundSources);
         }
 
@@ -1527,7 +1527,7 @@ public partial class CellBodyPlanEditorComponent :
             var specialization =
                 MicrobeInternalCalculations.CalculateSpecializationBonus(organelles, tempMemory3);
             var adjacencySpecialization =
-                CellBodyPlanInternalCalculations.GetAdjacencySpecializationBonusFromIndexAndPlan(cell.Data, cells);
+                CellBodyPlanInternalCalculations.GetEditorBodyPlanAdjacencySpecializationBonus(cell, cells);
 
             var totalSpecialization = specialization * adjacencySpecialization;
 

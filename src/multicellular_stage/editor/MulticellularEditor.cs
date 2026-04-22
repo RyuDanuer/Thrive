@@ -765,14 +765,20 @@ public partial class MulticellularEditor : EditorBase<EditorAction, MicrobeStage
         var tolerances = MicrobeEnvironmentalToleranceCalculations.ResolveToleranceValues(
             MicrobeEnvironmentalToleranceCalculations.CalculateTolerances(editedSpecies, CurrentPatch.Biome));
 
-        foreach (var cellType in editedSpecies.ModifiableCellTypes)
+        var editorCells = editedSpecies.ModifiableEditorCells;
+        var cellCount = editorCells.Count;
+
+        for (int i = 0; i < cellCount; ++i)
         {
+            var cellType = editorCells[i].Data?.ModifiableCellType ??
+                throw new InvalidOperationException("Multicellular editor body plan has a cell with no data");
             var cellEnergyBalance = new EnergyBalanceInfoSimple();
 
-            // TODO: specialization from positions (GetAdjacencySpecializationBonus)
             var specialization =
                 MicrobeInternalCalculations.CalculateSpecializationBonus(cellType.ModifiableOrganelles.Organelles,
-                    tempMemory1);
+                    tempMemory1) *
+                CellBodyPlanInternalCalculations.GetEditorBodyPlanAdjacencySpecializationBonusFromIndex(i,
+                    editorCells);
 
             ProcessSystem.ComputeEnergyBalanceSimple(cellType.ModifiableOrganelles.Organelles, CurrentPatch.Biome,
                 in tolerances, specialization, cellType.MembraneType, Vector3.Zero, false, true,

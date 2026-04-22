@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Components;
 using Godot;
 
@@ -143,15 +142,27 @@ public static class CellBodyPlanInternalCalculations
         return colonyRotation / cells.Count;
     }
 
-    public static float GetAdjacencySpecializationBonusFromIndexAndPlan(CellTemplate? cellInBodyPlan,
-        IReadOnlyList<HexWithData<CellTemplate>> bodyPlan)
+    /// <summary>
+    ///   Calculates the specialization bonus from same-type adjacent cells in the editor body plan. This works on the
+    ///   editor body plan, not the expanded gameplay cell layout.
+    /// </summary>
+    public static float GetEditorBodyPlanAdjacencySpecializationBonus<TCell>(
+        IReadOnlyHexWithData<TCell> cellInEditorBodyPlan, IEnumerable<IReadOnlyHexWithData<TCell>> editorBodyPlan)
+        where TCell : class, IReadOnlyCellTemplate
     {
         var bonus = 0.0f;
+        var targetCellType = cellInEditorBodyPlan.Data?.CellType;
 
-        foreach (var cell in bodyPlan)
+        if (targetCellType == null)
         {
-            if (cellInBodyPlan!.CellType == cell.Data!.CellType
-                && cell.Position.DistanceTo(cellInBodyPlan.Position) == 1)
+            GD.PrintErr("Editor body plan cell has no data while calculating adjacency specialization bonus");
+            return 1;
+        }
+
+        foreach (var cell in editorBodyPlan)
+        {
+            if (cell.Data?.CellType == targetCellType &&
+                cell.Position.DistanceTo(cellInEditorBodyPlan.Position) == 1)
             {
                 bonus += Constants.CELL_ADJACENCY_SPECIALIZATION_BONUS;
             }
@@ -160,40 +171,29 @@ public static class CellBodyPlanInternalCalculations
         return 1 + bonus;
     }
 
-    public static float GetAdjacencySpecializationBonusFromIndexAndPlan(int cellIndexInBodyPlan,
-        IReadOnlyIndividualLayout<IReadOnlyCellTemplate> bodyPlan)
+    public static float GetEditorBodyPlanAdjacencySpecializationBonusFromIndex(int cellIndexInBodyPlan,
+        IReadOnlyIndividualLayout<IReadOnlyCellTemplate> editorBodyPlan)
     {
-        var bonus = 0.0f;
-        var plan = bodyPlan.ToList();
-        var cellInBodyPlan = plan[cellIndexInBodyPlan];
+        var currentIndex = 0;
 
-        foreach (var cell in bodyPlan)
+        foreach (var cell in editorBodyPlan)
         {
-            if (cellInBodyPlan.Data!.CellType == cell.Data!.CellType
-                && cell.Position.DistanceTo(cellInBodyPlan.Position) == 1)
+            if (currentIndex == cellIndexInBodyPlan)
             {
-                bonus += Constants.CELL_ADJACENCY_SPECIALIZATION_BONUS;
+                return GetEditorBodyPlanAdjacencySpecializationBonus(cell, editorBodyPlan);
             }
+
+            ++currentIndex;
         }
 
-        return 1 + bonus;
+        GD.PrintErr("Editor body plan cell index is out of range for adjacency specialization bonus: ",
+            cellIndexInBodyPlan);
+        return 1;
     }
 
-    public static float GetAdjacencySpecializationBonusFromIndexAndPlan(int cellIndexInBodyPlan,
-        IndividualHexLayout<CellTemplate> bodyPlan)
+    public static float GetEditorBodyPlanAdjacencySpecializationBonusFromIndex(int cellIndexInBodyPlan,
+        IndividualHexLayout<CellTemplate> editorBodyPlan)
     {
-        var bonus = 0.0f;
-        var cellInBodyPlan = bodyPlan[cellIndexInBodyPlan];
-
-        foreach (var cell in bodyPlan)
-        {
-            if (cellInBodyPlan.Data!.CellType == cell.Data!.CellType
-                && cell.Position.DistanceTo(cellInBodyPlan.Position) == 1)
-            {
-                bonus += Constants.CELL_ADJACENCY_SPECIALIZATION_BONUS;
-            }
-        }
-
-        return 1 + bonus;
+        return GetEditorBodyPlanAdjacencySpecializationBonus(editorBodyPlan[cellIndexInBodyPlan], editorBodyPlan);
     }
 }

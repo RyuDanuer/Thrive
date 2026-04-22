@@ -254,7 +254,7 @@ public partial class CellBodyPlanEditorComponent
             var specialization =
                 MicrobeInternalCalculations.CalculateSpecializationBonus(type.ModifiableOrganelles, tempMemory3);
             var adjacencySpecialization =
-                CellBodyPlanInternalCalculations.GetAdjacencySpecializationBonusFromIndexAndPlan(i, cells);
+                CellBodyPlanInternalCalculations.GetEditorBodyPlanAdjacencySpecializationBonusFromIndex(i, cells);
 
             totalSpecialization += specialization * adjacencySpecialization;
 
